@@ -1,3 +1,5 @@
 tasks.json
 *.out
 debug.txt
+input.txt
+output.txt
