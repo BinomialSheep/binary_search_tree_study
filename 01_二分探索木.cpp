@@ -178,6 +178,29 @@ class BinarySearchTree {
     return ret;
   }
 
+  // 可視化用（https://binomialsheep.github.io/sheep-visualize-graph-beta/）
+  void print_edges() {
+    vector<pair<int, int>> edges;
+    auto dfs = [&](auto rec, Node *&node) -> void {
+      if (!node) return;
+      if (node->parent) edges.emplace_back(node->parent->value, node->value);
+      rec(rec, node->left);
+      rec(rec, node->right);
+    };
+    dfs(dfs, root);
+    int n = 0;
+    for (auto [v, u] : edges) {
+      n = max(n, v);
+      n = max(n, u);
+    }
+    int m = (int)edges.size();
+    // ラベルは圧縮しない
+    cout << n << " " << m << endl;
+    for (auto [v, u] : edges) {
+      cout << v << " " << u << endl;
+    }
+  }
+
   void print() {
     auto res = inorder_tree_walk();
     for (auto v : res) cout << " " << v;
@@ -198,6 +221,8 @@ void test() {
     tree.insert(4);
     tree.insert(3);
     tree.insert(6);
+
+    tree.print_edges();
 
     Node *node = tree.tree_minimum();
     for (int i = 1; i <= 6; i++) {
