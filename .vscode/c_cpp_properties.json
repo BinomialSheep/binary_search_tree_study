@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "WSL",
+            "includePath": [
+                "/home/ilu/competitive/Competitive/ac-library/",
+                "${workspaceFolder}/**",
+                "/usr/include/**",
+                "/usr/include/c++/13",
+                "/usr/include/x86_64-linux-gnu/c++/13",
+                "/usr/include/c++/13/backward",
+                "/usr/local/include",
+                "/usr/lib/gcc/x86_64-linux-gnu/13/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/usr/bin/g++-13",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
