@@ -1,0 +1,6 @@
+[
+  { "key": 3, "left": 1, "right": 4, "parent": -1, "color": "BLACK" },
+  { "key": 1, "left": -1, "right": -1, "parent": 3, "color": "BLACK" },
+  { "key": 4, "left": -1, "right": 5, "parent": 3, "color": "BLACK" },
+  { "key": 5, "left": -1, "right": -1, "parent": 4, "color": "RED" }
+]
