@@ -28,7 +28,7 @@ class BinarySearchTree {
   }
 
   // uを根とする部分木を、vを根とする部分木で置き換える（親方向の処理しかやらない点に注意）
-  void transparent(Node *&u, Node *&v) {
+  void transplant(Node *&u, Node *&v) {
     if (u->parent == nullptr) {
       root = v;
     } else if (u == u->parent->left) {
@@ -79,22 +79,22 @@ class BinarySearchTree {
 
     if (!delete_node->left) {
       // 両方の子がないか、右側しか子がない
-      transparent(delete_node, delete_node->right);
+      transplant(delete_node, delete_node->right);
     } else if (!delete_node->right) {
       // 左側しか子がない
-      transparent(delete_node, delete_node->left);
+      transplant(delete_node, delete_node->left);
     } else {
       // 両方子がある
       // delete_nodeの位置に来るnode
       Node *node = tree_minimum(delete_node->right);
       if (node != delete_node->right) {
         // 孫以下の場合、孫の右の子を置いてくる必要がある
-        transparent(node, node->right);
+        transplant(node, node->right);
         //
         node->right = delete_node->right;
         node->right->parent = node;
       }
-      transparent(delete_node, node);
+      transplant(delete_node, node);
       node->left = delete_node->left;
       node->left->parent = node;
     }
