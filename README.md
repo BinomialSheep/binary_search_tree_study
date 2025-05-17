@@ -35,4 +35,5 @@ Treap の verify 用。
 
 [Associative Array](https://judge.yosupo.jp/problem/associative_array)
 
-こっちはちゃんと実装しないと落としてくれそう。key,value ストアを実装する必要がある。
+こっちはちゃんと実装しないと落としてくれそう。
+(key,value)を実装して set じゃなくて map にするか、erase を実装する必要がある。

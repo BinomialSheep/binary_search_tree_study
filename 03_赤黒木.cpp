@@ -397,7 +397,13 @@ class RedBlackTree {
     }
   }
 
-  // デバッグ用。json形式で標準エラーに書き出す
+  /**
+   * ===================================
+   * デバッグ用
+   * ===================================
+   */
+
+  // json形式で標準エラーに書き出す
   void print_red_black_tree() {
     auto dfs = [&](auto rec, Node *&node) -> void {
       if (node == NIL) return;
@@ -420,8 +426,7 @@ class RedBlackTree {
     cerr << "]" << endl;
   }
 
-  // デバッグ用
-
+  // 特定のノードを標準出力する
   void debug_node(Node *node) {
     if (node == NIL) {
       cerr << "NIL" << endl;
@@ -435,9 +440,10 @@ class RedBlackTree {
          << parent << endl;
   }
 
+  // 二分探索木条件を満たしているか確認する
   void assert_valid_tree() {
     auto dfs = [&](auto rec, Node *&node) -> void {
-      if (!node) return;
+      if (node == NIL) return;
       if (node->left) {
         assert(node == node->left->parent);
         assert(node->key >= node->left->key);
@@ -448,6 +454,41 @@ class RedBlackTree {
       }
       rec(rec, node->left);
       rec(rec, node->right);
+    };
+    dfs(dfs, root);
+  }
+
+  // 赤黒木条件を満たしているか確認する(todo)
+  void assert_valid_redblack_tree() {
+    /**
+     * 赤黒木条件
+     * 1. 各節点は赤または黒のどちらかである
+     * 2. 根は黒である
+     * 3. 全ての葉（NIL）は黒である
+     * 4. ある節点が赤ならば、その子は共に黒である
+     * 5. 任意の節点とその子孫の葉を結ぶ全ての単純路は同数の黒節点を含む
+     */
+    auto dfs = [&](auto rec, Node *&node) -> int {
+      // 1. 各節点は赤または黒のどちらかである
+      assert(node->color == BLACK || node->color == RED);
+      // 2. 根は黒である
+      if (node == root) assert(node->color == BLACK);
+      if (node == NIL) {
+        // 3. 全ての葉（NIL）は黒である
+        assert(node->color == BLACK);
+        return 1;
+      }
+      // 4. ある節点が赤ならば、その子は共に黒である
+      if (node->color == RED) {
+        assert(node->left->color == BLACK);
+        assert(node->right->color == BLACK);
+      }
+      int resl = rec(rec, node->left);
+      int resr = rec(rec, node->right);
+      // 任意の節点とその子孫の葉を結ぶ全ての単純路は同数の黒節点を含む
+      assert(resl == resr);
+      // 自身と子孫の黒の数を返す
+      return resl + node->color == BLACK ? 1 : 0;
     };
     dfs(dfs, root);
   }
@@ -466,6 +507,7 @@ void test() {
   tree.erase(3);
   tree.print();
   tree.print_red_black_tree();
+  tree.assert_valid_redblack_tree();
 }
 
 void solve_9580pym() {
@@ -576,21 +618,23 @@ void assert_f() {
       ll ans2 = node2 == tree2.NIL ? 0 : node2->value;
       // cerr << ans1 << " " << ans2 << endl;
       if (ans1 != ans2) {
-        for (auto q : history) {
-          cerr << q.t << " " << q.k << " " << q.v << endl;
+        for (auto qq : history) {
+          cerr << qq.t << " " << qq.k << " " << qq.v << endl;
         }
         tree1.print_red_black_tree();
         tree2.print_red_black_tree();
         assert(false);
       }
     }
+    tree1.assert_valid_redblack_tree();
+    tree2.assert_valid_redblack_tree();
   }
 }
 
 int main() {
-  // test();
+  test();
   //   solve_9580pym();
   // solve_associative_array();
-  solve_associative_array_2();
-  // assert_f();
+  // solve_associative_array_2();
+  assert_f();
 }
